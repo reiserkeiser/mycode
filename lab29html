@@ -1,0 +1,39 @@
+import html
+
+# Define the trivia dictionary
+trivia = {
+    "question": "Which of the following is NOT a quote from the 1942 film Casablanca?",
+    "correct_answer": "&quot;Frankly, my dear, I don&#039;t give a damn.&quot;",
+    "incorrect_answers": [
+        "&quot;Here&#039;s lookin&#039; at you, kid.&quot;",
+        "&ldquo;Of all the gin joints, in all the towns, in all the world, she walks into mine&hellip;&rdquo;",
+        "&quot;Round up the usual suspects.&quot;"
+    ]
+}
+
+# Unescaping HTML entities
+trivia["correct_answer"] = html.unescape(trivia["correct_answer"])
+trivia["incorrect_answers"] = [html.unescape(answer) for answer in trivia["incorrect_answers"]]
+
+# Combine and shuffle answers (optional)
+answers = trivia["incorrect_answers"] + [trivia["correct_answer"]]
+# Optional shuffle here
+
+# Assign letters to answers
+options = ['A', 'B', 'C', 'D']
+
+# Display the question and answers
+print(trivia["question"])
+for option, answer in zip(options, answers):
+    print(f"{option}. {answer}")
+
+# Get and validate user's answer
+user_choice = input("Enter the letter of your answer: ").upper()
+if user_choice in options:
+    if answers[options.index(user_choice)] == trivia["correct_answer"]:
+        print("Correct!")
+    else:
+        print("Incorrect. The correct answer was:", trivia["correct_answer"])
+else:
+    print("Invalid input. Please enter a letter from A to D.")
+
