@@ -1,0 +1,69 @@
+import random
+
+def get_easy_choice():
+    return random.choice(["rock", "paper", "scissors"])
+
+def get_medium_choice(previous_choices):
+    # Example strategy: favor the choice that would have won against the player's last choice
+    if previous_choices:
+        last_choice = previous_choices[-1]
+        if last_choice == "rock":
+            return "paper"
+        elif last_choice == "paper":
+            return "scissors"
+        else:
+            return "rock"
+    else:
+        return get_easy_choice()
+
+def get_hard_choice(player_choices):
+    # More advanced strategy: predict the player's next move
+    # For simplicity, this example just counters the player's most frequent choice
+    if player_choices:
+        most_common = max(set(player_choices), key=player_choices.count)
+        if most_common == "rock":
+            return "paper"
+        elif most_common == "paper":
+            return "scissors"
+        else:
+            return "rock"
+    else:
+        return get_easy_choice()
+
+def determine_winner(user_choice, computer_choice):
+    if user_choice == computer_choice:
+        return "It's a tie!"
+    elif (user_choice == "rock" and computer_choice == "scissors") or \
+         (user_choice == "paper" and computer_choice == "rock") or \
+         (user_choice == "scissors" and computer_choice == "paper"):
+        return "You win!"
+    else:
+        return "You lose!"
+
+def play_game():
+    player_choices = []
+    while True:
+        user_choice = input("Enter rock, paper, or scissors (or 'quit' to stop): ").lower()
+        if user_choice == 'quit':
+            break
+        if user_choice not in ["rock", "paper", "scissors"]:
+            print("Invalid choice. Please choose rock, paper, or scissors.")
+            continue
+
+        difficulty = input("Choose opponent difficulty (easy, medium, hard): ").lower()
+        if difficulty == "easy":
+            computer_choice = get_easy_choice()
+        elif difficulty == "medium":
+            computer_choice = get_medium_choice(player_choices)
+        elif difficulty == "hard":
+            computer_choice = get_hard_choice(player_choices)
+        else:
+            print("Invalid difficulty. Defaulting to easy.")
+            computer_choice = get_easy_choice()
+
+        print(f"Computer chose: {computer_choice}")
+        print(determine_winner(user_choice, computer_choice))
+        player_choices.append(user_choice)
+
+play_game()
+

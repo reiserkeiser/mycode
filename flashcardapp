@@ -1,0 +1,25 @@
+from googletrans import Translator
+from gtts import gTTS
+from playsound import playsound
+import os
+
+def translate_to_swedish(text):
+    translator = Translator()
+    translation = translator.translate(text, dest='sv')
+    return translation.text
+
+def text_to_speech(text, lang):
+    tts = gTTS(text=text, lang=lang)
+    filename = 'temp_audio.mp3'
+    tts.save(filename)
+    playsound(filename)
+    os.remove(filename)
+
+# Example usage
+input_text = input("Enter text in English to translate to Swedish: ")
+translated_text = translate_to_swedish(input_text)
+print("Translated Text:", translated_text)
+
+# Playing the translated text
+text_to_speech(translated_text, 'sv')
+
